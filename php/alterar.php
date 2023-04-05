@@ -1,34 +1,25 @@
-
-<?php
+<?php 
     //Incluir conexão
     include("conexao.php");
-
-    //Obter dados
+    //Obter Dados
     $obterDados = file_get_contents("php://input");
-
-    //Extrair dados JSON
+    //Extrair Dados JSON
     $extrair = json_decode($obterDados);
-
-    //SQL
-    $sql = "UPDATE cursos SET nomeCurso = '$nomeCurso', valorCurso = $valorCurso WHERE idCurso=$idCurso";
-    mysqli_query($conexao, $sql);
-    
     //Separar dados JSON
-    $idCurso = $extrair->cursos->idCurso;
+    $idcurso = $extrair->cursos->idCurso;
     $nomeCurso = $extrair->cursos->nomeCurso;
     $valorCurso = $extrair->cursos->valorCurso;
-
-    //Exportar dados cadastrados   
+    //SQL
+    $sql = "UPDATE cursos SET nomeCurso='$nomeCurso', valorCurso=$valorCurso WHERE idCurso=$idCurso";
+    mysqli_query($conexao,$sql);
+    //Exportar dados JSON
     $curso = [
-        'nomeCurso'=> $nomeCurso,
-        'valorCurso'=> $valorCurso
+        'idCurso' => $idCurso,
+        'nomeCurso' => $nomeCurso,
+        'valorCurso' => $valorCurso
     ]
-    
-    //json_encode(['curso'=>$curso]);
+    //TODO ERROR
     json_encode(['curso']=>$curso);
 
 
 ?>
-
-
-

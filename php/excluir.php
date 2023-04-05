@@ -1,18 +1,17 @@
-<?php
+<?php 
     //Incluir conexão
     include("conexao.php");
-
     //Obter Dados
     $obterDados = file_get_contents("php://input");
-
-    //Extrair dados do JSON
+    //Extrair Dados JSON
     $extrair = json_decode($obterDados);
-
-    //Separar dados do JSON
-    $idCurso = $extrair->cursos->idCurso;
-
+    //Separar dados JSON
+    $idcurso = $extrair->cursos->idCurso;
+    
     //SQL
     $sql = "DELETE FROM cursos WHERE idCurso=$idCurso";
-    mysqli_query($conexao, $sql);
+    mysqli_query($conexao,$sql);
+    //Exportar dados JSON
+    
 
 ?>
