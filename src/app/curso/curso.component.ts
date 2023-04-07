@@ -11,10 +11,10 @@ import { CursoService } from './curso.service';
 export class CursoComponent implements OnInit {
 
   url = "http://localhost:8080/api/php/";
-  vetor:Curso[]=[];
-  curso: Curso;
+ 
+  vetor: Curso[] = [];
+  curso: Curso = new Curso();
   
-
   constructor(private cursoServise:CursoService) { }
 
   ngOnInit() 
@@ -29,9 +29,10 @@ export class CursoComponent implements OnInit {
         //Adicionar dados ao vetor
         this.vetor = res;
         //Limpar os atributos    
-        // foi posto entre [''] posteriormente   
-        this.curso['nomeCurso'] = null;
-        this.curso['valorCurso'] = null;
+      
+        
+        this.curso.nomeCurso = "";
+        this.curso.valorCurso = 0;
 
         //Atualizar a listagem
         this.selecao()
@@ -45,25 +46,36 @@ export class CursoComponent implements OnInit {
       }
     )
   }
-  alterar():void{
-    alert("alterar");
+  alterar(){
+    this.cursoServise.atualizarCurso(this.curso).subscribe(
+      (res) => {
+        //Atualizar vetor
+        this.vetor = res;
+        //Limpar valores do objeto
+        //Limpar valores do objeto
+        this.curso.nomeCurso = "";
+        this.curso.valorCurso = 0;
+        //Atualizar a listagem
+        this.selecao();
+      }
+    )
   }
   remover(){
     this.cursoServise.removerCurso(this.curso).subscribe(
       (res : Curso[]) => {
         this.vetor = res;
 
-        this.curso['nomeCurso'] = null;
-        this.curso['valorCurso'] = null;
+        this.curso.nomeCurso = "";
+        this.curso.valorCurso = 0;
       } 
     )
   }
   //Selecionar curso especifico
   selecionarCurso(c:Curso){
+    
     this.curso['idCurso'] = c['idCurso'];
     this.curso['nomeCurso'] = c['nomeCurso'];
-    this.curso['valor'] = c['valorCurso'];
-     
+    this.curso['valorCurso'] = c['valorCurso'];
   }
 
 }
